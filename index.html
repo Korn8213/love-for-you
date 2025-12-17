@@ -6,15 +6,9 @@
   <title>มีบางอย่างอยากให้เธออ่าน 💌</title>
 
   <style>
-    img {
-      max-width: 100%;
-      height: auto;
-      display: block;
-    }
-
     body {
       margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
       background: linear-gradient(135deg, #ffd6e8, #fff);
       display: flex;
       justify-content: center;
@@ -30,16 +24,14 @@
       box-shadow: 0 15px 35px rgba(0,0,0,0.2);
       text-align: center;
       max-width: 360px;
-      width: 100%;
       animation: fadeIn 1.2s ease;
       z-index: 2;
     }
 
     h1 { color: #ff4d88; }
-    p { color: #555; line-height: 1.7; }
+    p { color: #555; }
 
     button {
-      margin-top: 20px;
       padding: 14px 28px;
       border: none;
       border-radius: 30px;
@@ -47,7 +39,6 @@
       color: white;
       font-size: 16px;
       cursor: pointer;
-      animation: pulse 1.5s infinite;
     }
 
     .hidden { display: none; }
@@ -57,36 +48,6 @@
       color: #ff4d88;
       animation: floatUp 5s linear infinite;
       pointer-events: none;
-      z-index: 1;
-    }
-
-    .typewriter {
-      overflow: hidden;
-      white-space: nowrap;
-      border-right: 2px solid #ff4d88;
-      animation: typing 4s steps(40,end), blink .8s infinite;
-      margin-bottom: 15px;
-    }
-
-    .gallery {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 10px;
-      flex-wrap: wrap;
-    }
-
-    .gallery img {
-      width: 75px;
-      height: 75px;
-      object-fit: cover;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-      transition: transform 0.3s ease;
-    }
-
-    .gallery img:hover {
-      transform: scale(1.15);
     }
 
     @keyframes floatUp {
@@ -98,83 +59,49 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.08); }
-      100% { transform: scale(1); }
-    }
-
-    @keyframes typing {
-      from { width: 0; }
-      to { width: 100%; }
-    }
-
-    @keyframes blink {
-      50% { border-color: transparent; }
-    }
   </style>
 </head>
 
 <body>
 
-  <!-- หน้าแรก -->
   <div class="card" id="page1">
     <h1>มีบางอย่างอยากให้เธออ่าน 💌</h1>
-    <p>กดปุ่มข้างล่างนะ<br>ขอให้อ่านตอนอยู่คนเดียว 😊</p>
     <button onclick="openLetter()">เปิดจดหมาย</button>
   </div>
 
-  <!-- หน้าจดหมาย -->
   <div class="card hidden" id="page2">
     <h1>ถึงเธอคนพิเศษ ❤️</h1>
-
-    <p class="typewriter">
-      ตั้งแต่วันที่เราได้เจอกัน ทุกวันมันมีความหมายมากขึ้นจริง ๆ
-    </p>
-
-    <div class="gallery">
-      <img src="img1.webp" alt="">
-      <img src="img2.png" alt="">
-      <img src="img3.jpg" alt="">
-    </div>
-
-    <button onclick="finalPage()">อ่านต่อ</button>
+    <p>ตั้งแต่วันที่เราเจอกัน ทุกวันมันมีความหมายมากขึ้น</p>
   </div>
 
-  <!-- หน้าสุดท้าย -->
-  <div class="card hidden" id="page3">
-    <h1>รักเธอมากนะ 🥰</h1>
-    <p>
-      และจะรักแบบนี้ไปเรื่อย ๆ<br>
-      ขอบคุณที่เป็นรอยยิ้มของเรา 💕
-    </p>
-  </div>
+  <!-- ตัวเล่น YouTube (ซ่อนไว้) -->
+  <div id="player"></div>
 
-  <!-- YouTube Music -->
-  <iframe
-    id="ytmusic"
-    width="0"
-    height="0"
-    frameborder="0"
-    allow="autoplay; encrypted-media">
-  </iframe>
+  <!-- YouTube API -->
+  <script src="https://www.youtube.com/iframe_api"></script>
 
   <script>
+    let player;
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        height: '0',
+        width: '0',
+        videoId: 'WtcKJtwMD2E', // 🔴 เปลี่ยนเพลงตรงนี้
+        playerVars: {
+          autoplay: 0,
+          loop: 1,
+          playlist: 'WtcKJtwMD2E'
+        }
+      });
+    }
+
     function openLetter() {
       document.getElementById('page1').classList.add('hidden');
       document.getElementById('page2').classList.remove('hidden');
 
-      const videoID = "WtcKJtwMD2E"; // 🔴 เปลี่ยนเป็น YouTube Video ID ของเพลง
-      document.getElementById('ytmusic').src =
-        `https://www.youtube.com/embed/${videoID}?autoplay=1&mute=0&loop=1&playlist=${videoID}`;
-
+      player.playVideo(); // 🔥 เล่นเพลงหลังจาก user คลิก
       createHearts();
-    }
-
-    function finalPage() {
-      document.getElementById('page2').classList.add('hidden');
-      document.getElementById('page3').classList.remove('hidden');
     }
 
     function createHearts() {
