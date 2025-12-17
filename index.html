@@ -6,7 +6,6 @@
   <title>มีบางอย่างอยากให้เธออ่าน 💌</title>
 
   <style>
-    /* ป้องกันรูปใหญ่เกินทั้งเว็บ */
     img {
       max-width: 100%;
       height: auto;
@@ -33,6 +32,7 @@
       max-width: 360px;
       width: 100%;
       animation: fadeIn 1.2s ease;
+      z-index: 2;
     }
 
     h1 { color: #ff4d88; }
@@ -52,15 +52,14 @@
 
     .hidden { display: none; }
 
-    /* หัวใจลอย */
     .heart {
       position: absolute;
       color: #ff4d88;
       animation: floatUp 5s linear infinite;
       pointer-events: none;
+      z-index: 1;
     }
 
-    /* พิมพ์ข้อความ */
     .typewriter {
       overflow: hidden;
       white-space: nowrap;
@@ -69,7 +68,6 @@
       margin-bottom: 15px;
     }
 
-    /* ===== แกลเลอรีรูป (ฟิกแน่น) ===== */
     .gallery {
       display: flex;
       justify-content: center;
@@ -81,8 +79,6 @@
     .gallery img {
       width: 75px;
       height: 75px;
-      max-width: 75px;
-      max-height: 75px;
       object-fit: cover;
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.15);
@@ -93,7 +89,6 @@
       transform: scale(1.15);
     }
 
-    /* Animation */
     @keyframes floatUp {
       from { transform: translateY(0); opacity: 0; }
       to { transform: translateY(-800px); opacity: 1; }
@@ -156,12 +151,11 @@
     </p>
   </div>
 
-  <!-- เพลงจาก YouTube -->
+  <!-- YouTube Music -->
   <iframe
     id="ytmusic"
     width="0"
     height="0"
-    src=""
     frameborder="0"
     allow="autoplay; encrypted-media">
   </iframe>
@@ -171,9 +165,9 @@
       document.getElementById('page1').classList.add('hidden');
       document.getElementById('page2').classList.remove('hidden');
 
-      const youtubeID = "WtcKJtwMD2E"; // 👈 ใส่ YouTube Video ID
-      document.getElementById('ytmusic').src="https://www.youtube.com/embed/WtcKJtwMD2E?autoplay=1&mute=1"
-
+      const videoID = "WtcKJtwMD2E"; // 🔴 เปลี่ยนเป็น YouTube Video ID ของเพลง
+      document.getElementById('ytmusic').src =
+        `https://www.youtube.com/embed/${videoID}?autoplay=1&mute=0&loop=1&playlist=${videoID}`;
 
       createHearts();
     }
@@ -199,4 +193,3 @@
 
 </body>
 </html>
-
