@@ -2,72 +2,74 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8" />
-  <title>Surprise for You ❤️</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>มีบางอย่างอยากให้เธออ่าน 💌</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
+    /* ป้องกันรูปใหญ่เกินทั้งเว็บ */
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
     }
 
     body {
       margin: 0;
-      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ffd6e8, #fff);
       display: flex;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(135deg, #ffd6e8, #ffeef6);
+      height: 100vh;
       overflow: hidden;
     }
 
     .card {
       background: white;
-      width: 320px;
+      padding: 30px;
       border-radius: 24px;
-      padding: 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
       text-align: center;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
-      position: relative;
-      animation: fadeIn 1s ease;
+      max-width: 360px;
+      width: 100%;
+      animation: fadeIn 1.2s ease;
     }
 
-    h1 {
+    h1 { color: #ff4d88; }
+    p { color: #555; line-height: 1.7; }
+
+    button {
+      margin-top: 20px;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(135deg, #ff4d88, #ff85a2);
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      animation: pulse 1.5s infinite;
+    }
+
+    .hidden { display: none; }
+
+    /* หัวใจลอย */
+    .heart {
+      position: absolute;
       color: #ff4d88;
-      margin-bottom: 10px;
+      animation: floatUp 5s linear infinite;
+      pointer-events: none;
     }
 
-    p {
-      color: #555;
-      font-size: 15px;
+    /* พิมพ์ข้อความ */
+    .typewriter {
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 2px solid #ff4d88;
+      animation: typing 4s steps(40,end), blink .8s infinite;
       margin-bottom: 15px;
     }
 
-    button {
-      background: #ff4d88;
-      border: none;
-      color: white;
-      padding: 10px 22px;
-      border-radius: 999px;
-      font-size: 15px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    button:hover {
-      background: #ff2f73;
-      transform: scale(1.05);
-    }
-
-    .page {
-      display: none;
-    }
-
-    .page.active {
-      display: block;
-    }
-
-    /* gallery */
+    /* ===== แกลเลอรีรูป (ฟิกแน่น) ===== */
     .gallery {
       display: flex;
       justify-content: center;
@@ -82,26 +84,19 @@
       max-width: 75px;
       max-height: 75px;
       object-fit: cover;
-      border-radius: 14px;
+      border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      transition: transform 0.3s ease;
     }
 
-    img {
-      max-width: 100%;
-      height: auto;
+    .gallery img:hover {
+      transform: scale(1.15);
     }
 
-    /* video */
-    .video-box {
-      margin-top: 15px;
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-    }
-
-    .video-box iframe {
-      width: 100%;
-      height: 200px;
+    /* Animation */
+    @keyframes floatUp {
+      from { transform: translateY(0); opacity: 0; }
+      to { transform: translateY(-800px); opacity: 1; }
     }
 
     @keyframes fadeIn {
@@ -109,73 +104,97 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* hearts */
-    .heart {
-      position: fixed;
-      color: #ff6fa1;
-      font-size: 16px;
-      animation: floatUp 6s linear infinite;
-      opacity: 0.8;
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
     }
 
-    @keyframes floatUp {
-      from { transform: translateY(100vh); opacity: 1; }
-      to { transform: translateY(-10vh); opacity: 0; }
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent; }
     }
   </style>
 </head>
+
 <body>
 
-  <!-- หน้า 1 -->
-  <div class="card page active" id="page1">
-    <h1>💖 Surprise 💖</h1>
-    <p>มีอะไรบางอย่างอยากให้เธอดู</p>
+  <!-- หน้าแรก -->
+  <div class="card" id="page1">
+    <h1>มีบางอย่างอยากให้เธออ่าน 💌</h1>
+    <p>กดปุ่มข้างล่างนะ<br>ขอให้อ่านตอนอยู่คนเดียว 😊</p>
+    <button onclick="openLetter()">เปิดจดหมาย</button>
+  </div>
+
+  <!-- หน้าจดหมาย -->
+  <div class="card hidden" id="page2">
+    <h1>ถึงเธอคนพิเศษ ❤️</h1>
+
+    <p class="typewriter">
+      ตั้งแต่วันที่เราได้เจอกัน ทุกวันมันมีความหมายมากขึ้นจริง ๆ
+    </p>
 
     <div class="gallery">
-      <img src="img1.webp" />
-      <img src="img2.png" />
-      <img src="img3.jpg" />
+      <img src="img1.webp" alt="">
+      <img src="img2.png" alt="">
+      <img src="img3.jpg" alt="">
     </div>
 
-    <br />
-    <button onclick="goPage(2)">กดดูต่อ ➜</button>
+    <button onclick="finalPage()">อ่านต่อ</button>
   </div>
 
-  <!-- หน้า 2 -->
-  <div class="card page" id="page2">
-    <h1>🎥 สำหรับเธอ</h1>
-    <p>ดูคลิปนี้ให้จบนะ ❤️</p>
-
-    <div class="video-box">
-      <iframe
-       src="https://www.youtube.com/embed/WtcKJtwMD2E?autoplay=1&mute=0"
-        frameborder="0"
-        allow="autoplay; encrypted-media"
-        allowfullscreen>
-      </iframe>
-    </div>
-
-    <br />
-    <button onclick="goPage(1)">ย้อนกลับ</button>
+  <!-- หน้าสุดท้าย -->
+  <div class="card hidden" id="page3">
+    <h1>รักเธอมากนะ 🥰</h1>
+    <p>
+      และจะรักแบบนี้ไปเรื่อย ๆ<br>
+      ขอบคุณที่เป็นรอยยิ้มของเรา 💕
+    </p>
   </div>
+
+  <!-- เพลงจาก YouTube -->
+  <iframe
+    id="ytmusic"
+    width="0"
+    height="0"
+    src=""
+    frameborder="0"
+    allow="autoplay; encrypted-media">
+  </iframe>
 
   <script>
-    function goPage(num) {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.getElementById('page' + num).classList.add('active');
+    function openLetter() {
+      document.getElementById('page1').classList.add('hidden');
+      document.getElementById('page2').classList.remove('hidden');
+
+      const youtubeID = "VIDEO_ID_HERE"; // 👈 ใส่ YouTube Video ID
+      document.getElementById('ytmusic').src =
+        `https://www.youtube.com/embed/${youtubeID}?autoplay=1&loop=1&playlist=${youtubeID}`;
+
+      createHearts();
     }
 
-    function createHeart() {
-      const heart = document.createElement('div');
-      heart.className = 'heart';
-      heart.innerText = '❤️';
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.fontSize = Math.random() * 10 + 14 + 'px';
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 6000);
+    function finalPage() {
+      document.getElementById('page2').classList.add('hidden');
+      document.getElementById('page3').classList.remove('hidden');
     }
 
-    setInterval(createHeart, 500);
+    function createHearts() {
+      setInterval(() => {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.innerHTML = '❤';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.bottom = '-20px';
+        heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 5000);
+      }, 300);
+    }
   </script>
 
 </body>
