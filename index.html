@@ -6,6 +6,13 @@
   <title>มีบางอย่างอยากให้เธออ่าน 💌</title>
 
   <style>
+    /* ป้องกันรูปใหญ่เกินทั้งเว็บ */
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -24,6 +31,7 @@
       box-shadow: 0 15px 35px rgba(0,0,0,0.2);
       text-align: center;
       max-width: 360px;
+      width: 100%;
       animation: fadeIn 1.2s ease;
     }
 
@@ -44,14 +52,15 @@
 
     .hidden { display: none; }
 
-    /* เอฟเฟกต์หัวใจ */
+    /* หัวใจลอย */
     .heart {
       position: absolute;
       color: #ff4d88;
       animation: floatUp 5s linear infinite;
+      pointer-events: none;
     }
 
-    /* ตัวพิมพ์ */
+    /* พิมพ์ข้อความ */
     .typewriter {
       overflow: hidden;
       white-space: nowrap;
@@ -60,17 +69,20 @@
       margin-bottom: 15px;
     }
 
-    /* ===== ฟิกขนาดรูปตรงนี้ ===== */
+    /* ===== แกลเลอรีรูป (ฟิกแน่น) ===== */
     .gallery {
       display: flex;
       justify-content: center;
       gap: 12px;
       margin-top: 10px;
+      flex-wrap: wrap;
     }
 
     .gallery img {
-      width: 75px;     /* ✅ ขนาดจริง */
+      width: 75px;
       height: 75px;
+      max-width: 75px;
+      max-height: 75px;
       object-fit: cover;
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.15);
@@ -83,24 +95,24 @@
 
     /* Animation */
     @keyframes floatUp {
-      from { transform: translateY(0); opacity:0; }
-      to { transform: translateY(-800px); opacity:1; }
+      from { transform: translateY(0); opacity: 0; }
+      to { transform: translateY(-800px); opacity: 1; }
     }
 
     @keyframes fadeIn {
-      from { opacity:0; transform: translateY(20px); }
-      to { opacity:1; transform: translateY(0); }
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     @keyframes pulse {
-      0%{transform:scale(1);}
-      50%{transform:scale(1.08);}
-      100%{transform:scale(1);}
+      0% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
     }
 
     @keyframes typing {
-      from { width:0; }
-      to { width:100%; }
+      from { width: 0; }
+      to { width: 100%; }
     }
 
     @keyframes blink {
@@ -145,8 +157,10 @@
   </div>
 
   <!-- เพลงจาก YouTube -->
-  <iframe id="ytmusic" class="hidden"
-    width="0" height="0"
+  <iframe
+    id="ytmusic"
+    width="0"
+    height="0"
     src=""
     frameborder="0"
     allow="autoplay; encrypted-media">
@@ -157,7 +171,7 @@
       document.getElementById('page1').classList.add('hidden');
       document.getElementById('page2').classList.remove('hidden');
 
-      const youtubeID = "VIDEO_ID_HERE"; // ใส่ ID เพลง
+      const youtubeID = "VIDEO_ID_HERE"; // 👈 ใส่ YouTube Video ID
       document.getElementById('ytmusic').src =
         `https://www.youtube.com/embed/${youtubeID}?autoplay=1&loop=1&playlist=${youtubeID}`;
 
